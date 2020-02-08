@@ -10,7 +10,7 @@ class CreateProductVersions < ActiveRecord::Migration[5.2]
       t.references :sub_category, foreign_key: true
       t.string :code
       t.string :status
-      t.string :type
+      t.string :product_version_type
 
       t.timestamps
     end

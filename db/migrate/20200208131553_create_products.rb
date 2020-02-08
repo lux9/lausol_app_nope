@@ -11,7 +11,7 @@ class CreateProducts < ActiveRecord::Migration[5.2]
       t.date :received_at
       t.integer :code
       t.string :status
-      t.string :type
+      t.string :product_type
       t.references :producer, foreign_key: true
 
       t.timestamps
