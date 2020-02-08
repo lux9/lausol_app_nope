@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_08_132052) do
+ActiveRecord::Schema.define(version: 2020_02_08_133047) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,10 +37,19 @@ ActiveRecord::Schema.define(version: 2020_02_08_132052) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "pictures", force: :cascade do |t|
+    t.string "imageable_type"
+    t.bigint "imageable_id"
+    t.string "link"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["imageable_type", "imageable_id"], name: "index_pictures_on_imageable_type_and_imageable_id"
+  end
+
   create_table "producers", force: :cascade do |t|
     t.string "name"
     t.string "description"
-    t.string "type"
+    t.string "producer_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -53,7 +62,7 @@ ActiveRecord::Schema.define(version: 2020_02_08_132052) do
     t.bigint "sub_category_id"
     t.string "code"
     t.string "status"
-    t.string "type"
+    t.string "product_version_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["product_id"], name: "index_product_versions_on_product_id"
@@ -69,7 +78,7 @@ ActiveRecord::Schema.define(version: 2020_02_08_132052) do
     t.date "received_at"
     t.integer "code"
     t.string "status"
-    t.string "type"
+    t.string "product_type"
     t.bigint "producer_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
