@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-class CompanyOffice < ApplicationRecord
-  belongs_to :company
+class ConsumibleProduct < ApplicationRecord
+  belongs_to :sub_category
+  belongs_to :producer
   has_many :pictures, as: :imageable
-  has_many :addresses, as: :addresable
   has_many :history_logs, as: :loggable
 end

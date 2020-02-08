@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_08_142530) do
+ActiveRecord::Schema.define(version: 2020_02_08_164037) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,12 +45,84 @@ ActiveRecord::Schema.define(version: 2020_02_08_142530) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "consumible_products", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.integer "price"
+    t.string "detail"
+    t.bigint "sub_category_id"
+    t.date "received_at"
+    t.integer "code"
+    t.string "status"
+    t.string "product_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["sub_category_id"], name: "index_consumible_products_on_sub_category_id"
+  end
+
+  create_table "deliveries", force: :cascade do |t|
+    t.string "delivery_date"
+    t.string "delivery_status"
+    t.bigint "driver_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["driver_id"], name: "index_deliveries_on_driver_id"
+  end
+
+  create_table "drivers", force: :cascade do |t|
+    t.string "fname"
+    t.string "lname"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "history_logs", force: :cascade do |t|
     t.string "loggable_type"
     t.bigint "loggable_id"
+    t.bigint "user_id"
+    t.bigint "detail_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["detail_id"], name: "index_history_logs_on_detail_id"
     t.index ["loggable_type", "loggable_id"], name: "index_history_logs_on_loggable_type_and_loggable_id"
+    t.index ["user_id"], name: "index_history_logs_on_user_id"
+  end
+
+  create_table "invoice_products", force: :cascade do |t|
+    t.string "product"
+    t.string "amount"
+    t.bigint "invoice_id"
+    t.string "detail"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["invoice_id"], name: "index_invoice_products_on_invoice_id"
+  end
+
+  create_table "invoices", force: :cascade do |t|
+    t.bigint "company_office_id"
+    t.string "invoice_status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_office_id"], name: "index_invoices_on_company_office_id"
+  end
+
+  create_table "machine_products", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.string "available_amount"
+    t.bigint "sub_category_id"
+    t.string "code"
+    t.string "status"
+    t.string "product_version_type"
+    t.integer "price"
+    t.string "unit_type"
+    t.bigint "producer_id"
+    t.date "received_at"
+    t.string "product_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["producer_id"], name: "index_machine_products_on_producer_id"
+    t.index ["sub_category_id"], name: "index_machine_products_on_sub_category_id"
   end
 
   create_table "main_categories", force: :cascade do |t|
@@ -77,38 +149,6 @@ ActiveRecord::Schema.define(version: 2020_02_08_142530) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "product_versions", force: :cascade do |t|
-    t.string "name"
-    t.bigint "product_id"
-    t.string "description"
-    t.string "available_amount"
-    t.bigint "sub_category_id"
-    t.string "code"
-    t.string "status"
-    t.string "product_version_type"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["product_id"], name: "index_product_versions_on_product_id"
-    t.index ["sub_category_id"], name: "index_product_versions_on_sub_category_id"
-  end
-
-  create_table "products", force: :cascade do |t|
-    t.string "name"
-    t.string "description"
-    t.integer "price"
-    t.integer "stock"
-    t.bigint "sub_category_id"
-    t.date "received_at"
-    t.integer "code"
-    t.string "status"
-    t.string "product_type"
-    t.bigint "producer_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["producer_id"], name: "index_products_on_producer_id"
-    t.index ["sub_category_id"], name: "index_products_on_sub_category_id"
-  end
-
   create_table "sub_categories", force: :cascade do |t|
     t.string "title"
     t.string "description"
@@ -133,9 +173,11 @@ ActiveRecord::Schema.define(version: 2020_02_08_142530) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "product_versions", "products"
-  add_foreign_key "product_versions", "sub_categories"
-  add_foreign_key "products", "producers"
-  add_foreign_key "products", "sub_categories"
+  add_foreign_key "consumible_products", "sub_categories"
+  add_foreign_key "deliveries", "drivers"
+  add_foreign_key "invoice_products", "invoices"
+  add_foreign_key "invoices", "company_offices"
+  add_foreign_key "machine_products", "producers"
+  add_foreign_key "machine_products", "sub_categories"
   add_foreign_key "sub_categories", "main_categories"
 end

@@ -3,8 +3,8 @@ start_time = Time.now
 puts 'destroy all Pictures'
 Picture.destroy_all
 
-puts 'destroy all Products'
-Product.destroy_all
+# puts 'destroy all Products'
+# MachineProduct.destroy_all
 
 puts 'destroy all Addresses'
 Address.destroy_all
@@ -48,22 +48,19 @@ Address.create(
   addresable: Producer.last
 )
 
-Product.create(
+MachineProduct.create(
   name: 'product name',
   description: 'product description',
-  price: 100,
-  stock: 100,
   sub_category: SubCategory.last,
   received_at: Date.today,
   code: 100_111_1,
   status: 'pending',
   product_type: 'product type',
-  producer: Producer.last,
 )
 
 Picture.create(
   link: 'https://images-na.ssl-images-amazon.com/images/I/91czOt2U%2BQL._SL1500_.jpg',
-  imageable: Product.first
+  imageable: MachineProduct.first
 )
 
 end_time = Time.now

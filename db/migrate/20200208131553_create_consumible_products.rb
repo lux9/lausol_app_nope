@@ -1,18 +1,17 @@
 # frozen_string_literal: true
 
-class CreateProducts < ActiveRecord::Migration[5.2]
+class CreateConsumibleProducts < ActiveRecord::Migration[5.2]
   def change
-    create_table :products do |t|
+    create_table :consumible_products do |t|
       t.string :name
       t.string :description
       t.integer :price
-      t.integer :stock
+      t.string :detail
       t.references :sub_category, foreign_key: true
       t.date :received_at
       t.integer :code, uniqueness: true
       t.string :status
       t.string :product_type
-      t.references :producer, foreign_key: true
 
       t.timestamps
     end
