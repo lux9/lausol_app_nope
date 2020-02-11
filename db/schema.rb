@@ -51,12 +51,14 @@ ActiveRecord::Schema.define(version: 2020_02_08_164037) do
     t.integer "price"
     t.string "detail"
     t.bigint "sub_category_id"
+    t.bigint "producer_id"
     t.date "received_at"
     t.integer "code"
     t.string "status"
     t.string "product_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["producer_id"], name: "index_consumible_products_on_producer_id"
     t.index ["sub_category_id"], name: "index_consumible_products_on_sub_category_id"
   end
 
@@ -173,6 +175,7 @@ ActiveRecord::Schema.define(version: 2020_02_08_164037) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "consumible_products", "producers"
   add_foreign_key "consumible_products", "sub_categories"
   add_foreign_key "deliveries", "drivers"
   add_foreign_key "invoice_products", "invoices"

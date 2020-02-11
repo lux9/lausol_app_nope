@@ -8,6 +8,7 @@ class CreateConsumibleProducts < ActiveRecord::Migration[5.2]
       t.integer :price
       t.string :detail
       t.references :sub_category, foreign_key: true
+      t.references :producer, foreign_key: true
       t.date :received_at
       t.integer :code, uniqueness: true
       t.string :status
